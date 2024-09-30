@@ -1,5 +1,3 @@
-# Rails Template for Learning Camp
-
 ## How to use
 
 1. Clone this repo
