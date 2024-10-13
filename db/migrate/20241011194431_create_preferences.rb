@@ -4,6 +4,7 @@ class CreatePreferences < ActiveRecord::Migration[7.1]
       t.string :name
       t.text :description
       t.boolean :restriction
+      t.references :user, index: true
 
       t.timestamps
     end
