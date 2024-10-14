@@ -10,6 +10,10 @@ class PreferencesController < ApplicationController
     @preference = Preference.new
   end
 
+  def show
+    @preference = Preference.find(params[:id])
+  end
+
   def create
     @preference = current_user.preferences.new(permitted_params)
 
