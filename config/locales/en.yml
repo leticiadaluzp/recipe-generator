@@ -119,6 +119,7 @@ en:
       show_preference: Show Preference
       title: Preferences
       update_preference: Update Preference
+      update_success: Preference successfully updated.
     recipes:
       cancel: Cancel
       close_panel: Close
