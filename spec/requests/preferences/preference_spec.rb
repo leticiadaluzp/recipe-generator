@@ -65,4 +65,69 @@ describe 'Preferences' do
       end
     end
   end
+
+  describe 'GET edit' do
+    context 'when logged in' do
+      let!(:user) { create(:user) }
+      let!(:preference) { create(:preference, user_id: user.id) }
+      let!(:id) do
+        preference.id
+      end
+
+      before { sign_in user }
+
+      it 'have http status 200' do
+        expect(get edit_preference_path(preference.id)).to eq(200)
+      end
+    end
+  end
+
+
+  describe 'PUT update' do
+    subject { put preference_path(preference.id), params: }
+  
+    context 'when logged in' do
+      let!(:user) { create(:user) }
+      let!(:preference) { create(:preference, user_id: user.id) }
+
+      before { sign_in user }
+
+      context 'when success' do
+        let(:params) do
+          {
+            preference: {
+              name: 'DifferentName',
+              description: 'DifferentDescription',
+              restriction: false
+            }
+          }
+        end
+
+        it 'have http status 302' do
+          expect(subject).to eq(302)
+        end
+
+        it 'redirect to index' do
+          expect(subject).to redirect_to(preferences_path)
+        end
+      end
+
+      context 'when fails' do
+        let(:params) do
+          {
+            preference: {
+              name: nil,
+              description: 'DifferentDescription',
+              restriction: false
+            }
+          }
+        end
+        
+       it 'has status unprocessable entity' do
+          subject
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+      end
+    end
+  end
 end
