@@ -26,9 +26,9 @@ describe 'Preferences' do
       end
 
       before { sign_in user }
-  
+
       it 'have http status 200' do
-        expect(get preference_path(preference.id)).to eq(200)
+        expect(get(preference_path(preference.id))).to eq(200)
       end
     end
   end
