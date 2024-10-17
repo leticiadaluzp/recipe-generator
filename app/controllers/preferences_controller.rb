@@ -23,7 +23,7 @@ class PreferencesController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
-  
+
   private
 
   def permitted_params

@@ -49,7 +49,7 @@ class User < ApplicationRecord
          :recoverable, :trackable, :validatable
   include DeviseTokenAuth::Concerns::User
 
-  has_many :preferences
+  has_many :preferences, dependent: :destroy
 
   validates :uid, uniqueness: { scope: :provider }
   validates :email, uniqueness: true, on: :update
