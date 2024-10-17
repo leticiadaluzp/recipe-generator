@@ -122,6 +122,19 @@ describe 'Preferences' do
         subject
         expect(response).to have_http_status(:unprocessable_entity)
       end
-    end    
+    end 
+    
+    context 'when not logged in' do
+      it 'redirects to the sign-in page' do
+        subject
+        expect(response).to redirect_to(new_user_session_path)
+      end
+  
+      it 'does not change the preference count' do
+        expect {
+          delete preference_path(preference)
+        }.not_to change(Preference, :count)
+      end
+    end
   end
 end
