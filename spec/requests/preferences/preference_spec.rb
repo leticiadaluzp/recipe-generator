@@ -10,7 +10,6 @@ describe 'Preferences' do
       let!(:user) { create(:user) }
 
       before { sign_in user }
-  
 
       it 'have http status 200' do
         expect(subject).to eq(200)
@@ -94,15 +93,14 @@ describe 'Preferences' do
       before { sign_in user }
 
       it 'have http status 200' do
-        expect(get edit_preference_path(preference.id)).to eq(200)
+        expect(get(edit_preference_path(preference.id))).to eq(200)
       end
     end
   end
 
-
   describe 'PUT update' do
     subject { put preference_path(preference.id), params: }
-  
+
     context 'when logged in' do
       let!(:user) { create(:user) }
       let!(:preference) { create(:preference, user_id: user.id) }
@@ -139,8 +137,8 @@ describe 'Preferences' do
             }
           }
         end
-        
-       it 'has status unprocessable entity' do
+
+        it 'has status unprocessable entity' do
           subject
           expect(response).to have_http_status(:unprocessable_entity)
         end

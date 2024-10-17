@@ -31,12 +31,12 @@ class PreferencesController < ApplicationController
   def update
     @preference = Preference.find(params[:id])
     if @preference.update(permitted_params)
-      redirect_to preferences_path, notice: t('views.users.update_success')
+      redirect_to preferences_path, notice: t('views.preferences.update_success')
     else
       render :edit, status: :unprocessable_entity
     end
   end
-  
+
   private
 
   def permitted_params
