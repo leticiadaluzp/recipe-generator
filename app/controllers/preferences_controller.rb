@@ -24,6 +24,15 @@ class PreferencesController < ApplicationController
     end
   end
 
+  def destroy
+    @preference = Preference.find(params[:id])
+    if @preference.destroy!
+      redirect_to preferences_path, notice: t('views.preferences.destroy_success'), status: :see_other
+    else
+      redirect_to preferences_path, alert: t('views.preferences.destroy_failure'), status: :unprocessable_entity
+    end
+  end
+
   private
 
   def permitted_params
