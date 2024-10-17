@@ -130,6 +130,14 @@ describe 'Preferences' do
         it 'redirect to index' do
           expect(subject).to redirect_to(preferences_path)
         end
+
+        it 'updates attributes correctly' do
+          subject
+          preference.reload
+          expect(preference.name).to eq(params.dig(:preference, :name))
+          expect(preference.description).to eq(params.dig(:preference, :description))
+          expect(preference.restriction).to eq(params.dig(:preference, :restriction))
+        end
       end
 
       context 'when fails' do
