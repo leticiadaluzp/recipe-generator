@@ -10,7 +10,7 @@ describe 'Preferences' do
       let!(:user) { create(:user) }
 
       before { sign_in user }
-  
+
       it 'have http status 200' do
         expect(subject).to eq(200)
       end
