@@ -14,6 +14,10 @@ class PreferencesController < ApplicationController
     @preference = Preference.new
   end
 
+  def edit
+    @preference = Preference.find(params[:id])
+  end
+
   def create
     @preference = current_user.preferences.new(permitted_params)
 
@@ -21,6 +25,15 @@ class PreferencesController < ApplicationController
       redirect_to preferences_path, notice: t('views.preferences.create_success')
     else
       render :new, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    @preference = Preference.find(params[:id])
+    if @preference.update(permitted_params)
+      redirect_to preferences_path, notice: t('views.preferences.update_success')
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
