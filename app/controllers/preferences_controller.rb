@@ -27,25 +27,16 @@ class PreferencesController < ApplicationController
   def destroy
     @preference = Preference.find(params[:id])
 
-    success_message = t('views.preferences.destroy_success')
-    failure_message = t('views.preferences.destroy_failure')
-
-    if @preference.destroy!
-      redirect_to preferences_path, notice: success_message, status: :see_other
+    if @preference.destroy
+      redirect_to preferences_path, notice: t('views.preferences.destroy_success')
     else
-      handle_destroy_failure(failure_message)
+      redirect_to preferences_path, alert: t('views.preferences.destroy_failure'), status: :unprocessable_entity
     end
-  rescue ActiveRecord::RecordNotDestroyed
-    handle_destroy_failure(failure_message)
   end
 
   private
 
   def permitted_params
     params.require(:preference).permit(:name, :description, :restriction)
-  end
-
-  def handle_destroy_failure(failure_message)
-    redirect_to preferences_path, alert: failure_message, status: :unprocessable_entity
   end
 end

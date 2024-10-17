@@ -103,9 +103,9 @@ en:
       - Restriction
       create_preference: Create Preference
       create_success: Preference successfully created.
-      destroy_success: Preference successfully removed.
-      destroy_failure: Failed to remove the preference.
       description: Description
+      destroy_failure: Failed to remove the preference.
+      destroy_success: Preference successfully removed.
       edit:
         description: ''
         title: Edit Preference

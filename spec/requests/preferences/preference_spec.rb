@@ -108,7 +108,7 @@ describe 'Preferences' do
 
     context 'when destroy fails' do
       before do
-        allow_any_instance_of(Preference).to receive(:destroy!).and_raise(ActiveRecord::RecordNotDestroyed)
+        allow_any_instance_of(Preference).to receive(:destroy).and_return(false)
         sign_in user
       end
 
