@@ -6,6 +6,10 @@ class PreferencesController < ApplicationController
     @pagy, @records = pagy(@preferences)
   end
 
+  def show
+    @preference = Preference.find(params[:id])
+  end
+
   def new
     @preference = Preference.new
   end

@@ -11,8 +11,25 @@ describe 'Preferences' do
 
       before { sign_in user }
   
+
       it 'have http status 200' do
         expect(subject).to eq(200)
+      end
+    end
+  end
+
+  describe 'GET show' do
+    context 'when logged in' do
+      let!(:user) { create(:user) }
+      let!(:preference) { create(:preference, user_id: user.id) }
+      let!(:id) do
+        preference.id
+      end
+
+      before { sign_in user }
+
+      it 'have http status 200' do
+        expect(get(preference_path(preference.id))).to eq(200)
       end
     end
   end
