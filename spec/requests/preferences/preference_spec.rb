@@ -81,4 +81,47 @@ describe 'Preferences' do
       end
     end
   end
+
+  describe 'DELETE destroy' do
+    subject { delete preference_path(preference) }
+
+    let!(:user) { create(:user) }
+    let!(:preference) { create(:preference, user_id: user.id) }
+
+    context 'when logged in' do
+      before do
+        sign_in user
+      end
+
+      it 'destroys the preference' do
+        expect {
+          delete preference_path(preference)
+        }.to change(Preference, :count).by(-1)
+      end
+
+      it 'redirects to the preferences path with a success notice' do
+        subject
+        expect(response).to redirect_to(preferences_path)
+        expect(flash[:notice]).to eq(I18n.t('views.preferences.destroy_success'))
+      end
+    end
+
+    context 'when destroy fails' do
+      before do
+        allow_any_instance_of(Preference).to receive(:destroy!).and_raise(ActiveRecord::RecordNotDestroyed)
+        sign_in user
+      end
+    
+      it 'does not change the preference count' do
+        expect {
+          delete preference_path(preference)
+        }.not_to change(Preference, :count)
+      end
+    
+      it 'has status unprocessable entity' do
+        subject
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end    
+  end
 end

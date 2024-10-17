@@ -31,6 +31,8 @@ class PreferencesController < ApplicationController
     else
       redirect_to preferences_path, alert: t('views.preferences.destroy_failure'), status: :unprocessable_entity
     end
+  rescue ActiveRecord::RecordNotDestroyed
+    redirect_to preferences_path, alert: t('views.preferences.destroy_failure'), status: :unprocessable_entity
   end
 
   private
