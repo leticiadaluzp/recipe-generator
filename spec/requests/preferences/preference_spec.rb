@@ -134,9 +134,9 @@ describe 'Preferences' do
         it 'updates attributes correctly' do
           subject
           preference.reload
-          expect(preference.name).to eq(params.dig(:preference, :name))
-          expect(preference.description).to eq(params.dig(:preference, :description))
-          expect(preference.restriction).to eq(params.dig(:preference, :restriction))
+          expect(preference.name).to eq('DifferentName')
+          expect(preference.description).to eq('DifferentDescription')
+          expect(preference.restriction).to be(false)
         end
       end
 
