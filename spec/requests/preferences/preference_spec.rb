@@ -179,14 +179,14 @@ describe 'Preferences' do
 
       it 'destroys the preference' do
         expect {
-          delete preference_path(preference)
+          subject
         }.to change(Preference, :count).by(-1)
       end
 
       it 'redirects to the preferences path with a success notice' do
         subject
         expect(response).to redirect_to(preferences_path)
-        expect(flash[:notice]).to eq(I18n.t('views.preferences.destroy_success'))
+        expect(flash[:notice]).to eq('Preference successfully removed.')
       end
     end
 
@@ -198,7 +198,7 @@ describe 'Preferences' do
 
       it 'does not change the preference count' do
         expect {
-          delete preference_path(preference)
+          subject
         }.not_to change(Preference, :count)
       end
 
@@ -216,7 +216,7 @@ describe 'Preferences' do
 
       it 'does not change the preference count' do
         expect {
-          delete preference_path(preference)
+          subject
         }.not_to change(Preference, :count)
       end
     end

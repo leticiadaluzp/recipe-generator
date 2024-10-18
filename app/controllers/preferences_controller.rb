@@ -28,6 +28,15 @@ class PreferencesController < ApplicationController
     end
   end
 
+  def update
+    @preference = Preference.find(params[:id])
+    if @preference.update(permitted_params)
+      redirect_to preferences_path, notice: t('views.preferences.update_success')
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   def destroy
     @preference = Preference.find(params[:id])
 
@@ -35,13 +44,6 @@ class PreferencesController < ApplicationController
       redirect_to preferences_path, notice: t('views.preferences.destroy_success')
     else
       redirect_to preferences_path, alert: t('views.preferences.destroy_failure'), status: :unprocessable_entity
-  
-  def update
-    @preference = Preference.find(params[:id])
-    if @preference.update(permitted_params)
-      redirect_to preferences_path, notice: t('views.preferences.update_success')
-    else
-      render :edit, status: :unprocessable_entity
     end
   end
 
