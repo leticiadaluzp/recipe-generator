@@ -19,6 +19,7 @@ describe 'Recipes' do
 
   describe 'POST create' do
     subject { post recipes_path, params: }
+
     let(:params) do
       {
         recipe: {

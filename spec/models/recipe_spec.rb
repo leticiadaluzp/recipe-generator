@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: recipes
@@ -16,6 +18,6 @@
 #
 require 'rails_helper'
 
-RSpec.describe Recipe, type: :model do
+RSpec.describe Recipe do
   pending "add some examples to (or delete) #{__FILE__}"
 end
