@@ -15,6 +15,13 @@ describe 'Recipes' do
         expect(subject).to eq(200)
       end
     end
+
+    context 'when not logged in' do
+      it 'redirects to the sign-in page' do
+        subject
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
   end
 
   describe 'POST create' do
