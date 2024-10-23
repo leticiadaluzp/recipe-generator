@@ -27,15 +27,7 @@ describe 'Recipes' do
   describe 'POST create' do
     subject { post recipes_path, params: }
 
-    let(:params) do
-      {
-        recipe: {
-          name: '',
-          description: '',
-          ingredients: ''
-        }
-      }
-    end
+    let(:params) { { recipe: attributes_for(:recipe) } }
 
     context 'when logged in' do
       let!(:user) { create(:user) }

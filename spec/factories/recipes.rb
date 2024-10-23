@@ -18,8 +18,8 @@
 #
 FactoryBot.define do
   factory :recipe do
-    name { 'MyString' }
-    description { 'MyText' }
-    ingredients { 'MyText' }
+    name { Faker::Food.dish }
+    description { Faker::Food.description }
+    ingredients { Faker::Food.ingredient }
   end
 end
