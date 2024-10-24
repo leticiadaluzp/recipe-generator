@@ -21,6 +21,5 @@ FactoryBot.define do
     name { Faker::Food.dish }
     description { Faker::Food.description }
     ingredients { Faker::Food.ingredient }
-    user
   end
 end
