@@ -115,4 +115,9 @@ describe User do
       }.to change { ActionMailer::Base.deliveries.count }.by(1)
     end
   end
+
+  describe 'associations' do
+    it { is_expected.to have_many(:preferences).dependent(:destroy) }
+    it { is_expected.to have_many(:recipes).dependent(:destroy) }
+  end
 end
