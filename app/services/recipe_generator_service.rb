@@ -42,9 +42,15 @@ class RecipeGeneratorService
 
   def prompt
     <<~CONTENT
-      Prompt goes here
+      You are an expert chef assistant that recommends food recipes. You receive a list of ingredients
+      by the user and you must create a detailed recipe using those ingredients. Respond only with the
+      recipe, without any extra commentary or greetings in the following format.
+      {
+        name: <Dish name>,
+        instructions: <Recipe details>
+      }
     CONTENT
-  end
+  end  
 
   def new_message
     [
@@ -58,7 +64,7 @@ class RecipeGeneratorService
 
   def create_recipe(response)
     parsed_response = response.is_a?(String) ? JSON.parse(response) : response
-    content = JSON.parse(parsed_response.dig('choices', 0, 'message', 'content'))
+    content = JSON.parse(parsed_response.dig('choices', 0, 'message', 'content').to_json)
     # create recipe here
   rescue JSON::ParserError => exception
     raise RecipeGeneratorServiceError, exception.message
