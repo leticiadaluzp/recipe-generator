@@ -52,6 +52,7 @@ class RecipeGeneratorService
     CONTENT
   end  
 
+
   def new_message
     [
       { role: 'user', content: "Ingredients: #{message}" }
