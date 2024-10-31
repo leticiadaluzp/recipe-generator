@@ -195,4 +195,25 @@ describe 'Recipes' do
       end
     end
   end
+
+  describe 'GET show' do
+    subject { get(recipe_path(recipe.id)) }
+
+    let!(:user) { create(:user) }
+    let!(:recipe) { create(:recipe, user_id: user.id) }
+
+    context 'when logged in' do
+      before { sign_in user }
+
+      it 'have http status 200' do
+        expect(subject).to eq(200)
+      end
+    end
+
+    context 'when not logged in' do
+      it 'redirects to the sign-in page' do
+        expect(subject).to redirect_to(new_user_session_path)
+      end
+    end
+  end
 end
