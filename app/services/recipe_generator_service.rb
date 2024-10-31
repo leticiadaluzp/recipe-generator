@@ -50,8 +50,7 @@ class RecipeGeneratorService
         instructions: <Recipe details>
       }
     CONTENT
-  end  
-
+  end
 
   def new_message
     [
@@ -66,7 +65,7 @@ class RecipeGeneratorService
   def create_recipe(response)
     parsed_response = response.is_a?(String) ? JSON.parse(response) : response
     content = JSON.parse(parsed_response.dig('choices', 0, 'message', 'content'))
-    user.recipes.create(name: content["name"], description: content["instructions"], ingredients: message)
+    user.recipes.create!(name: content['name'], description: content['instructions'], ingredients: message)
   rescue JSON::ParserError => exception
     raise RecipeGeneratorServiceError, exception.message
   end
