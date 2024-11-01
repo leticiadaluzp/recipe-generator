@@ -195,4 +195,60 @@ describe 'Recipes' do
       end
     end
   end
+
+  describe 'DELETE destroy' do
+    subject { delete recipe_path(recipe) }
+
+    let!(:user) { create(:user) }
+    let!(:recipe) { create(:recipe, user_id: user.id) }
+
+    context 'when logged in' do
+      before do
+        sign_in user
+      end
+
+      it 'destroys the recipe' do
+        expect {
+          subject
+        }.to change(Recipe, :count).by(-1)
+      end
+
+      it 'redirects to the recipes path with a success notice' do
+        subject
+        expect(response).to redirect_to(recipes_path)
+        expect(flash[:notice]).to eq('Recipe successfully removed.')
+      end
+    end
+
+    context 'when destroy fails' do
+      before do
+        allow_any_instance_of(Recipe).to receive(:destroy).and_return(false)
+        sign_in user
+      end
+
+      it 'does not change the recipe count' do
+        expect {
+          subject
+        }.not_to change(Recipe, :count)
+      end
+
+      it 'has status unprocessable entity' do
+        subject
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+
+    context 'when not logged in' do
+      it 'redirects to the sign-in page' do
+        subject
+        expect(response).to redirect_to(new_user_session_path)
+      end
+
+      it 'does not change the recipes count' do
+        expect {
+          subject
+        }.not_to change(Recipe, :count)
+      end
+    end
+  end
 end
