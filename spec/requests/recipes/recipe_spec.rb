@@ -94,51 +94,50 @@ describe 'Recipes' do
       end
 
       context 'when not success' do
-        # context 'when the recipe creation fails' do
-        #   let(:response_body) do
-        #     {
-        #       "id": "chatcmpl-8a2jxRihbDdSvbaVfvIufuMbfoFIk",
-        #       "object": "chat.completion",
-        #       "created": 1703601033,
-        #       "model": "gpt-3.5-turbo-0613",
-        #       "choices": [
-        #           {
-        #               "index": 0,
-        #               "message": {
-        #                   "role": "assistant",
-        #                   "content": "{ \"name\": \"\", \"instructions\": \"\" }"
-        #                 },
-        #               "logprobs": nil,
-        #               "finish_reason": "stop"
-        #           }
-        #       ],
-        #       "usage": {
-        #           "prompt_tokens": 49,
-        #           "completion_tokens": 74,
-        #           "total_tokens": 123
-        #       },
-        #       "system_fingerprint": nil
-        #     }
-        #   end
+        context 'when the recipe creation fails' do
+          let(:response_body) do
+            {
+              id: 'chatcmpl-8a2jxRihbDdSvbaVfvIufuMbfoFIk',
+              object: 'chat.completion',
+              created: 1_703_601_033,
+              model: 'gpt-3.5-turbo-0613',
+              choices: [
+                {
+                  index: 0,
+                  message: {
+                    role: 'assistant',
+                    content: '{ "name": "", "instructions": "" }'
+                  },
+                  logprobs: nil,
+                  finish_reason: 'stop'
+                }
+              ],
+              usage: {
+                prompt_tokens: 49,
+                completion_tokens: 74,
+                total_tokens: 123
+              },
+              system_fingerprint: nil
+            }
+          end
 
-        #   before do
-        #     sign_in user
-        #     WebMock.stub_request(
-        #       :post,
-        #       'https://api.openai.com/v1/chat/completions'
-        #     ).to_return(status: 200, body: response_body.to_json)
-        #   end
+          before do
+            sign_in user
+            WebMock.stub_request(
+              :post,
+              'https://api.openai.com/v1/chat/completions'
+            ).to_return(status: 200, body: response_body.to_json)
+          end
 
-        #   it 'does not create the recipe' do
-        #     expect { subject }.not_to change(Recipe, :count)
-        #   end
+          it 'does not create the recipe' do
+            expect { subject }.not_to change(Recipe, :count)
+          end
 
-        #   it 'renders the new template with status unprocessable entity' do
-        #     subject
-        #     expect(response).to have_http_status(:unprocessable_entity)
-        #     expect(response).to render_template(:new)
-        #   end
-        # end
+          it 'renders the new template with status unprocessable entity' do
+            subject
+            expect(response).to have_http_status(:unprocessable_entity)
+          end
+        end
 
         context 'when the json fails' do
           let(:response_body) do
