@@ -27,11 +27,6 @@ describe 'Recipes' do
   describe 'POST create' do
     subject { post recipes_path, params: }
 
-    # let(:ingredients_string) do
-    #   ingredients_array = Array.new(3) { Faker::Food.ingredient }
-    #   { ingredients_array: ingredients_array.join(', ') }
-    # end
-
     let(:params) do
       {
         recipe: {
@@ -133,7 +128,7 @@ describe 'Recipes' do
             expect { subject }.not_to change(Recipe, :count)
           end
 
-          it 'renders the new template with status unprocessable entity' do
+          it 'has unprocessable entity status' do
             subject
             expect(response).to have_http_status(:unprocessable_entity)
           end
