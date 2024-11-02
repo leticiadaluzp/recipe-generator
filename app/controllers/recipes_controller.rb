@@ -5,23 +5,28 @@ class RecipesController < ApplicationController
     @recipes = current_user.recipes
   end
 
+  def show
+    @recipe = current_user.recipes.find(params[:id])
+  end
+
   def new
     @recipe = Recipe.new
   end
 
   def create
-    @recipe = current_user.recipes.new(permitted_params)
-
-    if @recipe.save
+    @recipe = RecipeGeneratorService.new(permitted_params[:ingredients], current_user.id).call
+    if @recipe.valid?
       redirect_to recipes_path, notice: t('views.recipes.create_success')
     else
       render :new, status: :unprocessable_entity
     end
+  rescue RecipeGeneratorServiceError => exception
+    redirect_to recipes_path, alert: exception.message
   end
 
   private
 
   def permitted_params
-    params.require(:recipe).permit(:name, :description, :ingredients)
+    params.require(:recipe).permit(:ingredients)
   end
 end
