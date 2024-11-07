@@ -40,11 +40,13 @@ class RecipeGeneratorService
     [{ role: 'system', content: prompt }]
   end
 
-  def prompt
-    enabled_preferences = user.preferences.where(restriction: true).map { |preference|
+  def enabled_preferences
+    current_user.preferences.where(restriction: true).map { |preference|
       "- #{preference.name}: #{preference.description}"
     }.join("\n")
+  end
 
+  def prompt
     <<~CONTENT
       You are an expert chef assistant that recommends food recipes. You receive a list of ingredients
       by the user and you must create a detailed recipe using those ingredients. You have to take into account#{' '}
