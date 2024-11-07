@@ -76,6 +76,12 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def enabled_preferences_list
+    preferences.where(restriction: true).pluck(:name, :description).map { |name, description|
+      "- #{name}: #{description}"
+    }.join("\n")
+  end
+
   private
 
   def init_uid
