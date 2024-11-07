@@ -214,11 +214,16 @@ describe 'Recipes' do
       end
     end
 
-    context 'when destroy fails' do
+    context 'when trying to destroy a recipe that does not belong to the logged-in user' do
+      subject { delete recipe_path(other_recipe) }
+
+      let!(:other_user) { create(:user) }
+      let!(:other_recipe) { create(:recipe, user: other_user) }
+
       before do
-        allow_any_instance_of(Recipe).to receive(:destroy).and_return(false)
         sign_in user
       end
+
 
       it 'does not change the recipe count' do
         expect {
@@ -226,9 +231,10 @@ describe 'Recipes' do
         }.not_to change(Recipe, :count)
       end
 
-      it 'has status unprocessable entity' do
+      it 'redirects to the recipes path with a failure alert' do
         subject
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to redirect_to(recipes_path)
+        expect(flash[:alert]).to eq('Failed to remove the recipe.')
       end
     end
 

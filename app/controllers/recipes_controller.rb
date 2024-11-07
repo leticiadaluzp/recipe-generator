@@ -25,12 +25,12 @@ class RecipesController < ApplicationController
   end
 
   def destroy
-    @recipe = Recipe.find(params[:id])
+    @recipe = current_user.recipes.find_by(id: params[:id])
 
-    if @recipe.destroy
+    if @recipe&.destroy
       redirect_to recipes_path, notice: t('views.recipes.destroy_success')
     else
-      redirect_to recipes_path, alert: t('views.recipes.destroy_failure'), status: :unprocessable_entity
+      redirect_to recipes_path, alert: t('views.recipes.destroy_failure')
     end
   end
 
