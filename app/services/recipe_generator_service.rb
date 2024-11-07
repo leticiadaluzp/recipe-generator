@@ -41,15 +41,15 @@ class RecipeGeneratorService
   end
 
   def prompt
-    enabled_preferences = user.preferences.where(restriction: true).map do |preference|
+    enabled_preferences = user.preferences.where(restriction: true).map { |preference|
       "- #{preference.name}: #{preference.description}"
-    end.join("\n")
+    }.join("\n")
 
     <<~CONTENT
       You are an expert chef assistant that recommends food recipes. You receive a list of ingredients
-      by the user and you must create a detailed recipe using those ingredients. You have to take into account 
+      by the user and you must create a detailed recipe using those ingredients. You have to take into account#{' '}
       the following preferences: #{enabled_preferences}
-      
+
       Respond only with the recipe, without any extra commentary or greetings in the following JSON format.
       {
         name: <Dish name>,
