@@ -24,6 +24,16 @@ class RecipesController < ApplicationController
     redirect_to recipes_path, alert: exception.message
   end
 
+  def destroy
+    @recipe = current_user.recipes.find_by(id: params[:id])
+
+    if @recipe&.destroy
+      redirect_to recipes_path, notice: t('views.recipes.destroy_success')
+    else
+      redirect_to recipes_path, alert: t('views.recipes.destroy_failure')
+    end
+  end
+
   private
 
   def permitted_params

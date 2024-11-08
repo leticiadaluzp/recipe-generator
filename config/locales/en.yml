@@ -131,6 +131,8 @@ en:
       create_recipe: Create Recipe
       create_success: Recipe successfully created.
       description: Here you will find all your recipes
+      destroy_failure: Failed to remove the recipe.
+      destroy_success: Recipe successfully removed.
       ingredients: Ingredients
       name: Name
       new:

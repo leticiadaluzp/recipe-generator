@@ -214,9 +214,65 @@ describe 'Recipes' do
         expect(recipe.ingredients).to eq('Pasta, Tomato sauce, Cheese')
       end
     end
+  end
+
+  describe 'DELETE destroy' do
+    subject { delete recipe_path(recipe) }
+
+    let!(:user) { create(:user) }
+    let!(:recipe) { create(:recipe, user_id: user.id) }
+
+    context 'when logged in' do
+      before do
+        sign_in user
+      end
+
+      it 'destroys the recipe' do
+        expect {
+          subject
+        }.to change(Recipe, :count).by(-1)
+      end
+
+      it 'redirects to the recipes path with a success notice' do
+        subject
+        expect(response).to redirect_to(recipes_path)
+        expect(flash[:notice]).to eq('Recipe successfully removed.')
+      end
+    end
+
+    context 'when trying to destroy a recipe that does not belong to the logged-in user' do
+      subject { delete recipe_path(other_recipe) }
+
+      let!(:other_user) { create(:user) }
+      let!(:other_recipe) { create(:recipe, user: other_user) }
+
+      before do
+        sign_in user
+      end
+
+      it 'does not change the recipe count' do
+        expect {
+          subject
+        }.not_to change(Recipe, :count)
+      end
+
+      it 'redirects to the recipes path with a failure alert' do
+        subject
+        expect(response).to redirect_to(recipes_path)
+        expect(flash[:alert]).to eq('Failed to remove the recipe.')
+      end
+    end
 
     context 'when not logged in' do
       it 'redirects to the sign-in page' do
+        subject
+        expect(response).to redirect_to(new_user_session_path)
+      end
+
+      it 'does not change the recipes count' do
+        expect {
+          subject
+        }.not_to change(Recipe, :count)
         expect(subject).to redirect_to(new_user_session_path)
       end
     end
