@@ -40,11 +40,22 @@ class RecipeGeneratorService
     [{ role: 'system', content: prompt }]
   end
 
+  def preferences
+    user.preferences.map { |preference|
+      prefix = preference.restriction ? 'RESTRICTION: ' : 'PREFERENCE: '
+      "#{prefix}- #{preference.name}: #{preference.description}"
+    }.join("\n")
+  end
+
   def prompt
     <<~CONTENT
       You are an expert chef assistant that recommends food recipes. You receive a list of ingredients
-      by the user and you must create a detailed recipe using those ingredients. Respond only with the
-      recipe, without any extra commentary or greetings in the following JSON format.
+      by the user and you must create a detailed recipe using those ingredients. You have to consider
+      the following restrictions and preferences when crafting the recipe:#{' '}
+
+      #{preferences}
+
+      Respond only with the recipe, without any extra commentary or greetings in the following JSON format.
       {
         name: <Dish name>,
         instructions: <Recipe details>
