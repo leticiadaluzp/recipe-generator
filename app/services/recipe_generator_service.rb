@@ -40,7 +40,7 @@ class RecipeGeneratorService
     [{ role: 'system', content: prompt }]
   end
 
-  def user_preferences
+  def preferences
     user.preferences.map { |preference|
       prefix = preference.restriction ? 'RESTRICTION: ' : 'PREFERENCE: '
       "#{prefix}- #{preference.name}: #{preference.description}"
@@ -53,7 +53,7 @@ class RecipeGeneratorService
       by the user and you must create a detailed recipe using those ingredients. You have to consider
       the following restrictions and preferences when crafting the recipe:#{' '}
 
-      #{user_preferences}
+      #{preferences}
 
       Respond only with the recipe, without any extra commentary or greetings in the following JSON format.
       {
