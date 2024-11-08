@@ -190,6 +190,32 @@ describe 'Recipes' do
     end
   end
 
+  describe 'GET show' do
+    subject { get(recipe_path(recipe.id)) }
+
+    let!(:user) { create(:user) }
+    let!(:recipe) do
+      create(:recipe, user_id: user.id, name: 'Pasta', description: 'Cook the dish',
+                      ingredients: 'Pasta, Tomato sauce, Cheese')
+    end
+
+    context 'when logged in' do
+      before { sign_in user }
+
+      it 'have http status 200' do
+        expect(subject).to eq(200)
+      end
+
+      it 'has the correct recipe attributes' do
+        subject
+        expect(recipe.user_id).to eq(user.id)
+        expect(recipe.name).to eq('Pasta')
+        expect(recipe.description).to eq('Cook the dish')
+        expect(recipe.ingredients).to eq('Pasta, Tomato sauce, Cheese')
+      end
+    end
+  end
+
   describe 'DELETE destroy' do
     subject { delete recipe_path(recipe) }
 
@@ -224,7 +250,6 @@ describe 'Recipes' do
         sign_in user
       end
 
-
       it 'does not change the recipe count' do
         expect {
           subject
@@ -248,6 +273,7 @@ describe 'Recipes' do
         expect {
           subject
         }.not_to change(Recipe, :count)
+        expect(subject).to redirect_to(new_user_session_path)
       end
     end
   end
