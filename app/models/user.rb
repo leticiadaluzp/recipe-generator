@@ -83,8 +83,8 @@ class User < ApplicationRecord
   end
 
   def check_preferences_limit(_user)
-    if preferences.size >= Preference::MAX_PREFERENCES
-      raise PreferenceLimitExceeded, "You can't have more than #{Preference::MAX_PREFERENCES} preferences."
-    end
+    return unless preferences.size >= Preference::MAX_PREFERENCES
+
+    raise PreferenceLimitExceeded, "You can't have more than #{Preference::MAX_PREFERENCES} preferences."
   end
 end

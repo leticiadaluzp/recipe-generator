@@ -80,14 +80,15 @@ describe User do
     context 'when user has reached the maximum preferences limit' do
       before do
         Preference::MAX_PREFERENCES.times do
-          create(:preference, user: user)
+          create(:preference, user:)
         end
       end
 
       it 'raises PreferenceLimitExceeded error when adding another preference' do
         expect {
           user.preferences.create!(name: 'Extra Preference', description: 'Description')
-        }.to raise_error(PreferenceLimitExceeded, "You can't have more than #{Preference::MAX_PREFERENCES} preferences.")
+        }.to raise_error(PreferenceLimitExceeded,
+                         "You can't have more than #{Preference::MAX_PREFERENCES} preferences.")
       end
     end
 
