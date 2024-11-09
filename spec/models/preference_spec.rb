@@ -19,6 +19,8 @@
 require 'rails_helper'
 
 RSpec.describe Preference do
+  let(:user) { create(:user) }
+
   describe 'validations' do
     it { is_expected.to validate_presence_of(:name) }
   end

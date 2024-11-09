@@ -74,6 +74,32 @@ describe User do
     end
   end
 
+  describe 'preferences limit' do
+    let!(:user) { create(:user, first_name: 'John', last_name: 'Doe') }
+
+    context 'when user has reached the maximum preferences limit' do
+      before do
+        Preference::MAX_PREFERENCES.times do
+          create(:preference, user: user)
+        end
+      end
+
+      it 'raises PreferenceLimitExceeded error when adding another preference' do
+        expect {
+          user.preferences.create!(name: 'Extra Preference', description: 'Description')
+        }.to raise_error(PreferenceLimitExceeded, "You can't have more than #{Preference::MAX_PREFERENCES} preferences.")
+      end
+    end
+
+    context 'when user has not reached the maximum preferences limit' do
+      it 'allows creating a new preference' do
+        expect {
+          user.preferences.create!(name: 'New Preference', description: 'Description')
+        }.to change(user.preferences, :count).by(1)
+      end
+    end
+  end
+
   describe '.from_social_provider' do
     context 'when user does not exist' do
       let(:params) { attributes_for(:user) }
