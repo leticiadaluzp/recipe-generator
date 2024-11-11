@@ -85,6 +85,6 @@ class User < ApplicationRecord
   def check_preferences_limit(_user)
     return unless preferences.size >= Preference::MAX_PREFERENCES
 
-    raise PreferenceLimitExceeded, t('views.users.maximum_preferences_reached', max: Preference::MAX_PREFERENCES)
+    raise PreferenceLimitExceeded, I18n.t('views.users.maximum_preferences_reached', max: Preference::MAX_PREFERENCES)
   end
 end
