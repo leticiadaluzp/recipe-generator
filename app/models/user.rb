@@ -49,7 +49,7 @@ class User < ApplicationRecord
          :recoverable, :trackable, :validatable
   include DeviseTokenAuth::Concerns::User
 
-  has_many :preferences, dependent: :destroy
+  has_many :preferences, dependent: :destroy, before_add: :check_preferences_limit
   has_many :recipes, dependent: :destroy
 
   validates :uid, uniqueness: { scope: :provider }
@@ -80,5 +80,11 @@ class User < ApplicationRecord
 
   def init_uid
     self.uid = email if uid.blank? && provider == 'email'
+  end
+
+  def check_preferences_limit(_user)
+    return unless preferences.size >= Preference::MAX_PREFERENCES
+
+    raise PreferenceLimitExceeded, I18n.t('views.users.maximum_preferences_reached', max: Preference::MAX_PREFERENCES)
   end
 end

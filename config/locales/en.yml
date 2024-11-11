@@ -158,6 +158,7 @@ en:
       email: Email
       first_name: Name
       last_name: Last Name
+      maximum_preferences_reached: You can't have more than %{max} preferences.
       new:
         description: Get started by filling in the information below to create your new user.
         title: New User
