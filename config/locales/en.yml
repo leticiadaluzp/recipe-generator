@@ -169,3 +169,4 @@ en:
       title: Users
       update_success: User successfully updated.
       update_user: Update User
+      maximum_preferences_reached: You can't have more than %{max} preferences.
