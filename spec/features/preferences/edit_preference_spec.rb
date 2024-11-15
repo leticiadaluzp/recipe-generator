@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'Edit user' do
   let(:user) { create(:user) }
-  let(:preference) { create(:preference, name: 'MyString', description: 'MyText', restriction: false) }
+  let!(:preference) { create(:preference, name: 'MyString', description: 'MyText', restriction: false, user_id: user.id) }
 
   before do
     sign_in user

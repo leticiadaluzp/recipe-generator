@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'Show preference', :js do
   let(:user) { create(:user) }
-  let(:preference) { create(:preference, name: 'MyString', description: 'MyText', restriction: false) }
+  let!(:preference) { create(:preference, name: 'MyString', description: 'MyText', restriction: false, user_id: user.id) }
  
   before do
     sign_in user
@@ -31,8 +31,8 @@ RSpec.describe 'Show preference', :js do
   end
 
   def show_first_preference
-    # within all('tbody tr').first do
-    #   click_on 'Show'
-    # end
+    within all('tbody tr').first do
+      click_on 'Show'
+    end
   end
 end
