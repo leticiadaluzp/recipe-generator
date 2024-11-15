@@ -40,13 +40,6 @@ RSpec.describe 'Preference creation' do
 
       expect(page).to have_content(I18n.t('errors.messages.blank'))
     end
-
-    # it 'handles missing description' do
-    #   new_preference_data[:description] = ''
-    #   create_preference(new_preference_data)
-
-    #   expect(page).to have_content(I18n.t('errors.messages.blank'))
-    # end
   end
 
   context 'when navigation' do

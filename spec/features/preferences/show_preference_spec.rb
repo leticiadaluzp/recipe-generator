@@ -4,8 +4,10 @@ require 'rails_helper'
 
 RSpec.describe 'Show preference', :js do
   let(:user) { create(:user) }
-  let!(:preference) { create(:preference, name: 'MyString', description: 'MyText', restriction: false, user_id: user.id) }
- 
+  let!(:preference) do
+    create(:preference, name: 'MyString', description: 'MyText', restriction: false, user_id: user.id)
+  end
+
   before do
     sign_in user
     visit preferences_path
