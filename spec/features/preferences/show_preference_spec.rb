@@ -29,6 +29,12 @@ RSpec.describe 'Show preference', :js do
         expect(page).to have_field('preference[description]', disabled: true)
         expect(page).to have_field('preference[restriction]', disabled: true)
       end
+
+      it 'show the correct data of the requested preference' do
+        expect(page).to have_content('MyString')
+        expect(page).to have_content('MyText')
+        expect(page).to have_content('false')
+      end
     end
   end
 
