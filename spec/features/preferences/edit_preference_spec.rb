@@ -17,17 +17,17 @@ RSpec.describe 'Edit user' do
     context 'with valid attributes' do
       it 'updates the requested preference' do
         edit_first_preference('Test Name')
-        expect(page).to have_content(I18n.t('views.preferences.update_success'))
+        expect(page).to have_content('Preference successfully updated.')
         expect(page).to have_content('Test Name')
         expect(page).to have_content('Test Description')
-        # Should I include some expect related to the restriction?
+        expect(page).to have_content('false')
       end
     end
 
     context 'with invalid attributes' do
       it 'renders the edit template with error messages' do
         edit_first_preference('')
-        expect(page).to have_content(I18n.t('errors.messages.blank'))
+        expect(page).to have_content('can\'t be blank')
       end
     end
   end
